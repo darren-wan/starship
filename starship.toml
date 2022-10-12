@@ -1,0 +1,71 @@
+add_newline = true
+
+format = """
+$battery\
+$directory\
+$git_branch\
+$git_status\
+[ ](fg:#777777)\
+$kubernetes\
+\n$character\
+"""
+
+[battery]
+full_symbol        = ""
+charging_symbol    = ""
+discharging_symbol = ""
+unknown_symbol     = ""
+empty_symbol       = ""
+format             = "[$symbol]($style)"
+disabled           = false
+
+[[battery.display]]
+threshold = 15
+style     = "fg:#444444"
+discharging_symbol = "[](fg:#990000)[](bold bg:#990000)[ ](fg:#990000 bg:#444444)"
+charging_symbol = "[](fg:#009900)[](bold bg:#009900)[ ](fg:#009900 bg:#444444)"
+
+[[battery.display]]
+threshold = 30
+style     = "fg:#444444"
+discharging_symbol = "[](fg:#999900)[](bold bg:#999900)[ ](fg:#999900 bg:#444444)"
+charging_symbol = "[](fg:#009900)[](bold bg:#009900)[ ](fg:#009900 bg:#444444)"
+
+[[battery.display]]
+threshold = 100
+style     = "fg:#444444"
+
+[directory]
+style             = "bg:#444444"
+format            = "[ $path ]($style)[](fg:#444444 bg:#666666)[](fg:#666666 bg:#777777)"
+truncation_length = 3
+truncation_symbol = "…/"
+repo_root_style   = "bg:#666666 fg:#e0928b"
+repo_root_format  = "[](bg:#444444 fg:#e84535)[ $repo_root](bg:#444444 bold)[$path ](bg:#444444)[](fg:#444444 bg:#666666)"
+
+git_branch]
+symbol = ""
+style = "bg:#666666 bold"
+format = '[ $symbol](fg:#a9c1e8 bg:#666666)[ $branch ]($style)'
+
+[git_status]
+style = "bg:#777777 bold"
+format = '[](fg:#666666 bg:#777777)[( $all_status$ahead_behind )]($style)'
+
+[azure]
+disabled = true
+format   = '[$symbol($subscription)]($style)'
+symbol   = "ﴃ "
+style    = "blue bold"
+
+[kubernetes]
+disabled = true
+format   = "[\ue0b6](fg:#33658A)[ $symbol$cluster( \\($namespace\\)) ]($style)[($user )]($style)[\ue0b4](fg:#33658A)"
+symbol   = "☸ "
+style    = "bg:#33658A"
+#detect_extensions = ["yml","yaml"]
+
+[character]
+format         = "$symbol"
+success_symbol = "[  ](bold green)"
+error_symbol   = "[  ](bold red)"
