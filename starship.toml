@@ -43,7 +43,7 @@ truncation_symbol = "…/"
 repo_root_style   = "bg:#666666 fg:#e0928b"
 repo_root_format  = "[](bg:#444444 fg:#e84535)[ $repo_root](bg:#444444 bold)[$path ](bg:#444444)[](fg:#444444 bg:#666666)"
 
-git_branch]
+[git_branch]
 symbol = ""
 style = "bg:#666666 bold"
 format = '[ $symbol](fg:#a9c1e8 bg:#666666)[ $branch ]($style)'
