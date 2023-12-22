@@ -1,71 +1,74 @@
 add_newline = true
 
-format = """
-$battery\
+continuation_prompt = '[ . ](fg:grey)'
+
+format      = """
 $directory\
 $git_branch\
 $git_status\
-[ ](fg:#777777)\
+$conda\
 $kubernetes\
-\n$character\
+[ ](bg:dir_back)[\ue0b4 ](fg:dir_back)\
+\n\
+$character\
 """
 
-[battery]
-full_symbol        = ""
-charging_symbol    = ""
-discharging_symbol = ""
-unknown_symbol     = ""
-empty_symbol       = ""
-format             = "[$symbol]($style)"
-disabled           = false
+palette = 'default'
 
-[[battery.display]]
-threshold = 15
-style     = "fg:#444444"
-discharging_symbol = "[](fg:#990000)[](bold bg:#990000)[ ](fg:#990000 bg:#444444)"
-charging_symbol = "[](fg:#009900)[](bold bg:#009900)[ ](fg:#009900 bg:#444444)"
-
-[[battery.display]]
-threshold = 30
-style     = "fg:#444444"
-discharging_symbol = "[](fg:#999900)[](bold bg:#999900)[ ](fg:#999900 bg:#444444)"
-charging_symbol = "[](fg:#009900)[](bold bg:#009900)[ ](fg:#009900 bg:#444444)"
-
-[[battery.display]]
-threshold = 100
-style     = "fg:#444444"
+[palettes.default]
+dir_icon   = '#eeeeee'
+dir_back   = '#444444'
+dir_path   = '#99bbdd'
+dir_repo   = '#99bbdd'
+git_back   = '#666666'
+git_icon   = '#aaccee'
+git_text   = '#88aadd'
+git_conf   = '#ffaa88'
+k8s_back   = '#446699'
+k8s_icon   = '#bbddff'
+k8s_text   = '#bbddff'
+conda_back = '#669966'
+conda_icon = '#ddffdd'
+conda_text = '#ddffdd'
 
 [directory]
-style             = "bg:#444444"
-format            = "[ $path ]($style)[](fg:#444444 bg:#666666)[](fg:#666666 bg:#777777)"
+style             = 'bg:dir_back fg:dir_path'
+format            = "[ \ue5ff ](bg:dir_back fg:dir_icon)[$path ]($style)"
 truncation_length = 3
-truncation_symbol = "…/"
-repo_root_style   = "bg:#666666 fg:#e0928b"
-repo_root_format  = "[](bg:#444444 fg:#e84535)[ $repo_root](bg:#444444 bold)[$path ](bg:#444444)[](fg:#444444 bg:#666666)"
+truncation_symbol = '…/'
+repo_root_format  = "[ \ue5fb ](bg:dir_back fg:dir_icon)[$repo_root]($repo_root_style)[$path ]($style)"
+repo_root_style   = 'bg:dir_back fg:dir_repo bold'
 
 [git_branch]
-symbol = ""
-style = "bg:#666666 bold"
-format = '[ $symbol](fg:#a9c1e8 bg:#666666)[ $branch ]($style)'
+symbol = "\ue725"
+style  = "fg:git_icon bg:git_back"
+format = "[ \ue0ba](fg:git_back bg:dir_back)[ $symbol ]($style)[$branch ](fg:git_text bg:git_back bold)"
 
 [git_status]
-style = "bg:#777777 bold"
-format = '[](fg:#666666 bg:#777777)[( $all_status$ahead_behind )]($style)'
+style      = "fg:git_text bg:git_back"
+format     = "([$all_status$ahead_behind ]($style))[\ue0bc ](fg:git_back bg:dir_back)"
+conflicted = ' [$count conflicts](fg:git_conf bg:git_back bold)'
+staged     = " \ueadc [$count](fg:git_icon bg:git_back bold)"
+deleted    = " \ueadf [$count](fg:git_icon bg:git_back bold)"
+renamed    = " \ueae0 [$count](fg:git_icon bg:git_back bold)"
+untracked  = " \ueb32 [$count](fg:git_icon bg:git_back bold)"
+ahead      = ' ahead by [$count](fg:git_icon bg:git_back bold)'
+behind     = ' behind by [$count](fg:git_icon bg:git_back bold)'
+diverged   = ' ahead by [$ahead_count](fg:git_icon bg:git_back bold)| behind by [$behind_count](fg:git_icon bg:git_back bold)'
 
-[azure]
-disabled = true
-format   = '[$symbol($subscription)]($style)'
-symbol   = "ﴃ "
-style    = "blue bold"
+[conda]
+symbol     = "\ue235"
+style      = 'bg:conda_back fg:conda_icon'
+format     = "([ \ue0ba](fg:conda_back bg:dir_back)[$symbol [$environment](bg:conda_back fg:conda_text bold)]($style)[\ue0bc ](fg:conda_back bg:dir_back))"
 
 [kubernetes]
-disabled = true
-format   = "[\ue0b6](fg:#33658A)[ $symbol$cluster( \\($namespace\\)) ]($style)[($user )]($style)[\ue0b4](fg:#33658A)"
-symbol   = "☸ "
-style    = "bg:#33658A"
-#detect_extensions = ["yml","yaml"]
+disabled = false
+symbol   = "\U000f10fe"
+style    = "bg:k8s_back fg:k8s_icon"
+format   = "([ \ue0ba](fg:k8s_back bg:dir_back)[$symbol ]($style)[$context( ($namespace))](bg:k8s_back fg:k8s_text bold)[\ue0bc ](fg:k8s_back bg:dir_back))"
+#detect_extensions = ["yml", "yaml"]
 
 [character]
 format         = "$symbol"
-success_symbol = "[  ](bold green)"
-error_symbol   = "[  ](bold red)"
+success_symbol = "[ > ](bold green)"
+error_symbol   = "[ > ](bold red)"
